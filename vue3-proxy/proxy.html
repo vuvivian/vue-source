@@ -1,0 +1,44 @@
+<!--
+ * @Author: vuvivian
+ * @Date: 2020-05-13 20:26:11
+ * @LastEditors: vuvivian
+ * @LastEditTime: 2020-05-13 21:57:08
+ * @Descripttion: 基于proxy实现响应式
+ * @FilePath: /vue-source/vue3-proxy/proxy.html
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <div id="btn"></div>
+  </div>
+  <script src="./proxy.js"></script>
+  <script>
+    const root = document.getElementById('app');
+    const btn = document.getElementById('btn');
+
+    let obj = reactive({
+      name: 'vuvivian',
+      age: 1
+    })
+
+    // computed也是用effect实现的
+    let dobule = computed(()=> obj.age*2)
+
+    effect(() => {
+      console.log('111')
+      // 数据变化
+      root.innerHTML = `<h1>${obj.name}今年${obj.age}, ${dobule.value}</h1>`
+    })
+
+    btn.addEventListener('click', ()=>{
+      obj.age += 1;
+    }, false)
+  </script>
+</body>
+</html>
